@@ -23,15 +23,10 @@ class AnimeGAN_v2:
         self.model.load_state_dict(ckpt)
 
     def generate_new_image(self):
-        content_image = AnimeGAN_v2.load_image(self.content_image)
+        content_image = self.image2tensor(frame)
         output = self.model(content_image.to(self.device))
         output_array = output[0].permute(1, 2, 0).detach().cpu().numpy()
         return (0.5 * output_array + 0.5).clip(0, 1)
-
-    @staticmethod
-    def load_image(content_image, size=None):
-        image = AnimeGAN_v2.image2tensor(content_image)
-        return image
 
     @staticmethod
     def image2tensor(image):
