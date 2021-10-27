@@ -10,9 +10,7 @@ class AnimeGAN_v2:
         super(AnimeGAN_v2, self).__init__()
         self.model_name: str = 'animeGAN_v2'
         self.model_version: str = '1.0.0'
-
-        self.content_image = kwargs['content_image']
-
+            
         self.pretrained_model_path: str = kwargs['pretrained_model_path']
 
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -22,8 +20,8 @@ class AnimeGAN_v2:
         ckpt = torch.load(self.pretrained_model_path, map_location=self.device)
         self.model.load_state_dict(ckpt)
 
-    def generate_new_image(self):
-        content_image = self.image2tensor(frame)
+    def generate_new_image(self, source_image):
+        content_image = self.image2tensor(source_image)
         output = self.model(content_image.to(self.device))
         output_array = output[0].permute(1, 2, 0).detach().cpu().numpy()
         return (0.5 * output_array + 0.5).clip(0, 1)
