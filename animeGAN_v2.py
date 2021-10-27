@@ -1,7 +1,7 @@
 import os
 import cv2
 import torch
-from model import Generator
+from networks import Generator
 
 
 class AnimeGAN_v2:
